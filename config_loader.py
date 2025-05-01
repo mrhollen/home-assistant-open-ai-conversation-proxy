@@ -13,11 +13,11 @@ def load_config(config_path='config.json'):
     except FileNotFoundError:
         print(f"Warning: {config_path} not found. Using defaults and environment variables.")
         CONFIG = { # Provide some basic defaults if file is missing
-            "default_model": "gpt-3.5-turbo",
+            "default_model": "gpt-4o-mini",
             "default_max_tokens": 150,
             "default_temperature": 0.7,
             "default_top_p": 1.0,
-            "proxy_port": 5002,
+            "proxy_port": 5000,
             "sse_delay": 0.02,
             "downstream_timeout": 90
         }
@@ -34,11 +34,11 @@ def load_config(config_path='config.json'):
                           "'local_chat_completions_url' in config.json must be set.")
 
     # Ensure required keys have defaults if missing after load (apart from URL)
-    CONFIG.setdefault("default_model", "gpt-3.5-turbo")
+    CONFIG.setdefault("default_model", "gpt-4o-mini")
     CONFIG.setdefault("default_max_tokens", 150)
     CONFIG.setdefault("default_temperature", 0.7)
     CONFIG.setdefault("default_top_p", 1.0)
-    CONFIG.setdefault("proxy_port", 5002)
+    CONFIG.setdefault("proxy_port", 5000)
     CONFIG.setdefault("sse_delay", 0.02)
     CONFIG.setdefault("downstream_timeout", 90)
 
