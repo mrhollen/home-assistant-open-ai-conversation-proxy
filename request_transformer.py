@@ -1,7 +1,7 @@
 import json
 import copy
 import config_loader as config
-
+from typing import Union
 def read_request_body(handler) -> dict:
     """Reads and parses the JSON request body from the HTTP handler."""
     content_length = int(handler.headers.get('Content-Length', 0))
@@ -23,7 +23,7 @@ def validate_request_data(data: dict):
          data['input'] = str(data['input']) # Ensure it's at least a string for basic case
 
 
-def format_tools_for_openai(tools_list) -> list | None:
+def format_tools_for_openai(tools_list) -> Union[list, None]:
     """Reformats the tool list to the standard OpenAI structure."""
     if not isinstance(tools_list, list): return None
     formatted_tools = []
