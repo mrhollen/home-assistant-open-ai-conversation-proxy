@@ -10,6 +10,11 @@ services:
     container_name: ha-openai-conversation-proxy
     # Restart policy: automatically restart unless manually stopped
     restart: unless-stopped
+
+    # Mount the config.json
+    volumes:
+      - /path/to/config.json:./config.json
+
     # Port mapping: Map port 5000 on the host to port 5000 in the container
     # This allows Home Assistant to connect to the proxy via http://<host_ip>:5000
     ports:
