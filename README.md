@@ -1,7 +1,5 @@
 # Home Assistant OpenAI Conversation Proxy for Local LLMs
 
-## Table of Contents
-
 * [Overview](#overview)
 * [Features](#features)
 * [Data Flow Diagram](#data-flow-diagram)
