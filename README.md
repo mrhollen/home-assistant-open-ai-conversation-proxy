@@ -18,6 +18,7 @@ The primary goal is to enable tool usage (function calling) with local LLMs via 
 
 This diagram shows how requests flow from Home Assistant, through the proxy, to your local LLM, and back:
 
+```mirmaid
 graph TD
     subgraph "User Interaction"
         HA[Home Assistant<br>(OpenAI Conversation UI)]
@@ -40,6 +41,7 @@ graph TD
     style HA fill:#f9f,stroke:#333,stroke-width:2px
     style Proxy fill:#ccf,stroke:#333,stroke-width:2px
     style LLM fill:#cfc,stroke:#333,stroke-width:2px
+```
 
 ## Prerequisites
 
