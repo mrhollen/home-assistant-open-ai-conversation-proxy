@@ -24,7 +24,8 @@ graph TD
 
     subgraph "Proxy Server (This Project)"
         P_IN[Receives Request @ /api/v1/responses];
-        P_LOGIC[Transforms Request (Tools fmt, stream=false)<br>Transforms Response (Full JSON -> Fake SSE)];
+        %% CORRECTED LINE BELOW: Added double quotes around the text content %%
+        P_LOGIC["Transforms Request (Tools fmt, stream=false)<br>Transforms Response (Full JSON -> Fake SSE)"];
         P_OUT[Sends Request @ /v1/chat/completions];
     end
 
@@ -37,7 +38,7 @@ graph TD
     B -- "1. POST Request (User Input + Tools)<br>Target: Proxy URL (e.g., http://proxy:5000/api/v1)" --> P_IN;
     P_IN --> P_LOGIC;
     P_LOGIC --> P_OUT;
-    P_OUT -- "2. POST Request (Formatted Input + Tools)<br>Target: LLM URL (e.g., http://localhost:8000/v1/chat/completions)" --> L_IN;
+    P_OUT -- "2. POST Request (Formatted Input + Tools)<br>Target: LLM URL (e.g., http://llm:8000/v1/chat/completions)" --> L_IN;
     L_IN --> L_PROCESS;
     L_PROCESS --> L_OUT;
     L_OUT -- "3. HTTP Response (Complete JSON with text or tool_calls)" --> P_LOGIC;
