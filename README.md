@@ -18,29 +18,41 @@ The primary goal is to enable tool usage (function calling) with local LLMs via 
 
 This diagram shows how requests flow from Home Assistant, through the proxy, to your local LLM, and back:
 
-```mirmaid
+```mermaid
 graph TD
-    subgraph "User Interaction"
-        HA[Home Assistant<br>(OpenAI Conversation UI)]
+    A[Home Assistant User] --> B(HA OpenAI Integration);
+
+    subgraph "Proxy Server (This Project)"
+        P_IN[Receives Request @ /api/v1/responses];
+        P_LOGIC[Transforms Request (Tools fmt, stream=false)<br>Transforms Response (Full JSON -> Fake SSE)];
+        P_OUT[Sends Request @ /v1/chat/completions];
     end
 
-    subgraph "Network Communication"
-        Proxy[Proxy Server<br>(Listens on /api/v1/responses)]
-        LLM[Local LLM Server<br>(e.g., Llama.cpp<br>/v1/chat/completions)]
+    subgraph "Local LLM Server (e.g., Llama.cpp)"
+        L_IN[Receives Request @ /v1/chat/completions];
+        L_PROCESS[Processes Request & Generates Full Response];
+        L_OUT[Sends Full JSON Response];
     end
 
-    HA -- 1. Request (Input, Tools)<br>/api/v1/responses --> Proxy;
-    Proxy -- 2. Transform Request<br>(Format Tools, Set stream=false) --> Proxy;
-    Proxy -- 3. Forward Transformed Request<br>/v1/chat/completions --> LLM;
-    LLM -- 4. Process & Send<br>Complete Response<br>(Text OR Tool Calls) --> Proxy;
-    Proxy -- 5. Receive & Parse<br>Complete Response --> Proxy;
-    Proxy -- 6. Generate Fake SSE Stream<br>(Simulates OpenAI Streaming) --> Proxy;
-    Proxy -- 7. Send Fake SSE<br>Stream to HA --> HA;
-    HA -- 8. Parse Stream &<br>Display/Execute Tools --> HA;
+    B -- "1. POST Request (User Input + Tools)<br>Target: Proxy URL (e.g., http://proxy:5000/api/v1)" --> P_IN;
+    P_IN --> P_LOGIC;
+    P_LOGIC --> P_OUT;
+    P_OUT -- "2. POST Request (Formatted Input + Tools)<br>Target: LLM URL (e.g., http://localhost:8000/v1/chat/completions)" --> L_IN;
+    L_IN --> L_PROCESS;
+    L_PROCESS --> L_OUT;
+    L_OUT -- "3. HTTP Response (Complete JSON with text or tool_calls)" --> P_LOGIC;
+    P_LOGIC -- "4. HTTP Response (Simulated SSE Stream)" --> B;
+    B --> Z[HA Action (Display Text / Execute Tool)];
 
-    style HA fill:#f9f,stroke:#333,stroke-width:2px
-    style Proxy fill:#ccf,stroke:#333,stroke-width:2px
-    style LLM fill:#cfc,stroke:#333,stroke-width:2px
+    %% Styling (Optional) - Helps distinguish components
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style Z fill:#f9f,stroke:#333,stroke-width:2px
+    style P_IN fill:#ccf,stroke:#333,stroke-width:2px
+    style P_OUT fill:#ccf,stroke:#333,stroke-width:2px
+    style P_LOGIC fill:#ccf,stroke:#333,stroke-width:2px
+    style L_IN fill:#cfc,stroke:#333,stroke-width:2px
+    style L_PROCESS fill:#cfc,stroke:#333,stroke-width:2px
+    style L_OUT fill:#cfc,stroke:#333,stroke-width:2px
 ```
 
 ## Prerequisites
