@@ -1,4 +1,4 @@
-# Home Assistant -> OpenAI Conversation Proxy for Local LLMs
+# Home Assistant OpenAI Conversation Proxy for Local LLMs
 
 ## Overview
 
@@ -28,7 +28,7 @@ The primary goal is to enable tool usage (function calling) with local LLMs via 
 
 You can run this proxy either using Docker (recommended for background service) or manually with Python.
 
-### Running with Docker (Recommended)
+### Running with Docker Compose (Recommended)
 
 1.  **Get the Files:** Clone this repository or download the following files into a single directory:
     * `proxy.py` (The Python script itself)
@@ -70,6 +70,50 @@ You can run this proxy either using Docker (recommended for background service) 
     ```bash
     docker-compose down
     ```
+
+### Running with Dockerfile (Manual Docker Commands)
+
+If you prefer not to use Docker Compose, you can build and run the container directly.
+
+1.  **Get the Files:** Ensure you have all the necessary Python files (`server.py`, `proxy_handler.py`, etc.), `config.json`, `requirements.txt`, and `Dockerfile` in a single directory.
+2.  **Configure `config.json`:** Edit `config.json` in the directory. Pay attention to:
+    * `local_chat_completions_url`: Set the correct URL for your downstream LLM API.
+    * `proxy_port`: Set the port the proxy should listen on *inside* the container (e.g., `5000`). This port number will be used in the `docker run` command.
+3.  **Build the Image:**
+    * Open a terminal in the directory containing the `Dockerfile`.
+    * Run the build command. Replace `my-ha-proxy-image` with a tag name you prefer:
+        ```bash
+        docker build -t my-ha-proxy-image .
+        ```
+4.  **Run the Container:**
+    * Execute the `docker run` command. You need to:
+        * Publish the port specified by `proxy_port` in your `config.json` (e.g., map host port `5000` to container port `5000`).
+        * Mount your `config.json` file as a volume into the container at `/app/config.json`.
+        * Run in detached mode (`-d`) so it runs in the background.
+        * Use `--rm` to automatically remove the container when it stops (optional but good for testing).
+        * Specify the image name you built.
+
+        ```bash
+        # Make sure config.json is in your current directory (.)
+        # Replace 5000:5000 if you use a different host:container port mapping
+        # Ensure the container port (second 5000) matches config.json's proxy_port
+        docker run -d --rm \
+          -p 5000:5000 \
+          -v "$(pwd)/config.json:/app/config.json:ro" \
+          --name ha-openai-proxy-manual \
+          my-ha-proxy-image
+        ```
+        *(Note: `$(pwd)` works on Linux/macOS to get the current directory for the volume mount. On Windows PowerShell, use `${PWD}`. On Windows CMD, you might need to use the full path explicitly like `-v C:\path\to\your\config.json:/app/config.json:ro`)*
+5.  **Check Logs:**
+    ```bash
+    docker logs -f ha-openai-proxy-manual
+    ```
+    (Press `Ctrl+C` to stop viewing logs).
+6.  **Stopping:**
+    ```bash
+    docker stop ha-openai-proxy-manual
+    ```
+    *(The container will be removed automatically if you used `--rm`)*. If you didn't use `--rm`, you might also need `docker rm ha-openai-proxy-manual`.
 
 ### Running Manually (Without Docker)
 
