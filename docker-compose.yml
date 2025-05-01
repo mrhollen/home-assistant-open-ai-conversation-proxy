@@ -13,7 +13,7 @@ services:
 
     # Mount the config.json
     volumes:
-      - /path/to/config.json:./config.json
+      - /path/to/config.json:/app/config.json
 
     # Port mapping: Map port 5000 on the host to port 5000 in the container
     # This allows Home Assistant to connect to the proxy via http://<host_ip>:5000
