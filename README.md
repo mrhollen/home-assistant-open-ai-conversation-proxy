@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Python script acts as a proxy server to bridge the gap between Home Assistant's OpenAI Conversation integration and local Large Language Models (LLMs) that expose an OpenAI-compatible API endpoint (like a Llama.cpp server).
+This Python project aims to create a proxy server to bridge the gap between Home Assistant's OpenAI Conversation integration and local Large Language Models (LLMs) that expose an OpenAI-compatible API endpoint (like a Llama.cpp server).
 
 The primary goal is to enable tool usage (function calling) with local LLMs via Home Assistant, even if the local LLM server doesn't fully support the standard OpenAI streaming protocol (Server-Sent Events - SSE) required by the Home Assistant integration when tools are involved.
 
