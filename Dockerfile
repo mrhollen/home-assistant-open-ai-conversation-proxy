@@ -18,4 +18,4 @@ COPY ./ ./
 EXPOSE 5000
 
 # Run proxy.py when the container launches
-CMD ["python", "proxy.py"]
+CMD ["python", "server.py"]
