@@ -1,5 +1,19 @@
 # Home Assistant OpenAI Conversation Proxy for Local LLMs
 
+## Table of Contents
+
+* [Overview](#overview)
+* [Features](#features)
+* [Data Flow Diagram](#data-flow-diagram)
+* [Prerequisites](#prerequisites)
+* [Setup & Running](#setup--running)
+    * [Running with Docker Compose (Recommended)](#running-with-docker-compose-recommended)
+    * [Running with Dockerfile (Manual Docker Commands)](#running-with-dockerfile-manual-docker-commands)
+    * [Running Manually (Without Docker)](#running-manually-without-docker)
+* [Home Assistant Configuration](#home-assistant-configuration)
+* [Troubleshooting](#troubleshooting)
+* [License](#license)
+
 ## Overview
 
 This Python project aims to create a proxy server to bridge the gap between Home Assistant's OpenAI Conversation integration and local Large Language Models (LLMs) that expose an OpenAI-compatible API endpoint (like a Llama.cpp server).
