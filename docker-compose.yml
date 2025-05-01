@@ -1,0 +1,16 @@
+# Docker Compose file for running the Home Assistant OpenAI Proxy
+
+version: '3.7' # Specify docker-compose version
+
+services:
+  openai-proxy:
+    # Build the Docker image from the Dockerfile in the current directory (.)
+    build: .
+    # Name the container for easier identification
+    container_name: ha-openai-conversation-proxy
+    # Restart policy: automatically restart unless manually stopped
+    restart: unless-stopped
+    # Port mapping: Map port 5000 on the host to port 5000 in the container
+    # This allows Home Assistant to connect to the proxy via http://<host_ip>:5000
+    ports:
+      - "5000:5000"

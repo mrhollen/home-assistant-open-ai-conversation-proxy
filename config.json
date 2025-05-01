@@ -4,7 +4,7 @@
     "default_max_tokens": 1024,
     "default_temperature": 0.7,
     "default_top_p": 1.0,
-    "proxy_port": 5002,
+    "proxy_port": 5000,
     "sse_delay": 0.02,
     "downstream_timeout": 90
   }
