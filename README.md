@@ -23,7 +23,7 @@ The primary goal is to enable tool usage (function calling) with local LLMs via 
 * **Receives Requests:** Listens for requests from Home Assistant on an endpoint mimicking the OpenAI `/responses` API structure.
 * **Forwards Requests:** Reformats the request (including tool definitions) and forwards it to your local LLM's `/v1/chat/completions` endpoint. At the moment the proxy disables streaming for all requests. See Fakes SSE below for the reason why.
 * **Handles Responses:** Receives the complete response (text or tool call) from the local LLM.
-* **Fakes SSE Stream:** Sends the response back to Home Assistant using a carefully crafted sequence of Server-Sent Events (SSE) that mimics the real OpenAI API stream, allowing Home Assistant's parser to correctly handle both text responses and tool calls. (This is required by Llama.cpp, but may not be needed for long. There is a PR open to allow streaming by llama.cpp during function use.)
+* **Fakes SSE Stream:** Sends the response back to Home Assistant using a sequence of Server-Sent Events (SSE) that mimics the real OpenAI API stream, allowing Home Assistant's parser to correctly handle both text responses and tool calls. (This is required by Llama.cpp, but may not be needed for long. There is a PR open to allow streaming by llama.cpp during function use.)
 * **Dockerized:** Includes `Dockerfile` and `docker-compose.yml` for easy deployment as a background service.
 
 ## Data Flow Diagram
