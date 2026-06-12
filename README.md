@@ -1,3 +1,5 @@
+# ⚠️ This repository is now unmaintained
+
 # Home Assistant OpenAI Conversation Proxy for Local LLMs
 
 * [Overview](#overview)
